@@ -40,7 +40,6 @@ impl Thumbnailer<'_> {
     pub fn get(&self, path: &Path) -> anyhow::Result<DynamicImage> {
         let file = File::open(path)?;
         let mime = tree_magic_mini::from_file(&file).context("Failed to find MIME type.")?;
-        println!("Reading path with MIME: {}", mime);
 
         let func = self
             .mappings
