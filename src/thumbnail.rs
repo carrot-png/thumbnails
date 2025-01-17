@@ -19,9 +19,13 @@ impl Thumbnailer<'_> {
         img::Img::load(&mut mappings);
         zip::Zip::load(&mut mappings);
 
+        #[cfg(feature = "ffmpeg")]
         if video_rs::init().is_ok() {
             video::Video::load(&mut mappings);
         }
+
+        #[cfg(feature = "pdf")]
+        pdf::Pdf::load(&mut mappings);
 
         Thumbnailer {
             width,
