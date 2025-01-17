@@ -14,6 +14,8 @@ video-rs = { version = "0.10.3", features = ["ndarray"] }
 zip = "2.2.2"
 
 [features]
-default = ["pdf", "ffmpeg"]
-pdf = []
+default = ["img", "zip", "ffmpeg", "pdf"] 
+img = []
+zip = []
 ffmpeg = []
+pdf = []

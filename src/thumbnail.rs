@@ -16,7 +16,10 @@ impl Thumbnailer<'_> {
         let mut mappings: HashMap<&str, fn(&Thumbnailer, &Path) -> anyhow::Result<DynamicImage>> =
             HashMap::new();
 
+        #[cfg(feature = "img")]
         img::Img::load(&mut mappings);
+
+        #[cfg(feature = "zip")]
         zip::Zip::load(&mut mappings);
 
         #[cfg(feature = "ffmpeg")]
