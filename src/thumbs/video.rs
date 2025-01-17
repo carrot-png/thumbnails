@@ -7,8 +7,13 @@ use video_rs::decode::Decoder;
 pub struct Video;
 
 impl Thumbnailable for Video {
-    const MIME_TYPES: &'static [&'static str] =
-        &["video/mp4", "video/webm", "application/x-matroska"];
+    const MIME_TYPES: &'static [&'static str] = &[
+        "video/mp4",
+        "video/webm",
+        "application/x-matroska",
+        "video/quicktime",
+        "application/octet-stream",
+    ];
 
     fn run(thumbnailer: &Thumbnailer, path: &Path) -> anyhow::Result<DynamicImage> {
         let mut decoder = Decoder::new(path)?;
