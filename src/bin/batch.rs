@@ -1,4 +1,9 @@
-use std::{env::args, path::Path};
+use std::{
+    env::args,
+    fs::{read_dir, DirEntry},
+    io,
+    path::Path,
+};
 
 use thumbnailer::thumbnail::Thumbnailer;
 
@@ -11,18 +16,31 @@ fn main() {
     let input = Path::new(&input);
     let output = Path::new(&output);
 
-    for entry in input.read_dir().unwrap() {
-        if let Ok(entry) = entry {
-            let thumb = thumbnailer.get(&entry.path());
+    let thumb = |entry: &DirEntry| {
+        match thumbnailer.get(&entry.path()) {
+            Ok(img) => {
+                let mut out = output.join(entry.file_name());
+                out.set_extension("png");
+                img.save(out).unwrap();
+            }
+            Err(err) => println!("{:?} ({:?})", err, entry.file_name()),
+        };
+    };
 
-            match thumb {
-                Ok(img) => {
-                    let mut out = output.join(entry.file_name());
-                    out.set_extension("png");
-                    img.save(out).unwrap();
-                }
-                Err(err) => println!("{:?} ({:?})", err, entry.file_name()),
+    visit_dirs(input, &thumb).unwrap();
+}
+
+fn visit_dirs(dir: &Path, cb: &dyn Fn(&DirEntry)) -> io::Result<()> {
+    if dir.is_dir() {
+        for entry in read_dir(dir)? {
+            let entry = entry?;
+            let path = entry.path();
+            if path.is_dir() {
+                visit_dirs(&path, cb)?;
+            } else {
+                cb(&entry);
             }
         }
     }
+    Ok(())
 }
