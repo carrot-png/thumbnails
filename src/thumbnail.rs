@@ -37,7 +37,8 @@ impl Thumbnailer<'_> {
         }
     }
 
-    pub fn get(&self, path: &Path) -> anyhow::Result<DynamicImage> {
+    pub fn get<T: AsRef<Path>>(&self, path: T) -> anyhow::Result<DynamicImage> {
+        let path = path.as_ref();
         let file = File::open(path)?;
         let mime = tree_magic_mini::from_file(&file).context("Failed to find MIME type.")?;
 
