@@ -5,7 +5,7 @@ use std::{
     path::Path,
 };
 
-use thumbnailer::thumbnail::Thumbnailer;
+use thumbnailer::Thumbnailer;
 
 fn main() {
     let thumbnailer = Thumbnailer::new(250, 250);
