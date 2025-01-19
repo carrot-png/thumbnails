@@ -17,3 +17,10 @@ let thumbnailer = Thumbnailer::new(250, 250);
 let thumb = thumbnailer.get("video.mp4")?;
 thumb.save("thumb.png")?;
 ```
+
+## Building
+Some file types require additional setup and can be disabled via `features` if unneeded.
+
+Video thumbnails depend on `ffmpeg`. See [rust-ffmpeg](https://github.com/zmwangx/rust-ffmpeg/wiki/Notes-on-building)
+
+PDF thumbnails depend on `pdfium`. See [pdfium-render](https://github.com/ajrcarey/pdfium-render?#dynamic-linking)

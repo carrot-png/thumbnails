@@ -22,8 +22,7 @@ pub struct Thumbnailer<'a> {
 impl Thumbnailer<'_> {
     /// Creates a new Thumbnailer with the given output width and height.
     pub fn new(width: u32, height: u32) -> Self {
-        let mut mappings: HashMap<&str, ThumbnailFn> =
-            HashMap::new();
+        let mut mappings: HashMap<&str, ThumbnailFn> = HashMap::new();
 
         #[cfg(feature = "img")]
         img::Img::load(&mut mappings);
@@ -36,7 +35,7 @@ impl Thumbnailer<'_> {
             video::Video::load(&mut mappings);
         }
 
-        #[cfg(feature = "pdf")]
+        #[cfg(feature = "pdfium")]
         pdf::Pdf::load(&mut mappings);
 
         Thumbnailer {
@@ -45,7 +44,7 @@ impl Thumbnailer<'_> {
             mappings,
         }
     }
-    
+
     /// Attempt to get an image thumbnail from the given file path.
     pub fn get<T: AsRef<Path>>(&self, path: T) -> anyhow::Result<DynamicImage> {
         let path = path.as_ref();
