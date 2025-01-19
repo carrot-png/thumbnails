@@ -4,7 +4,7 @@
 
 This crate converts various file formats into an `image::DynamicImage` of a user-specified size.
 
-Supports images, videos, ZIP/CBZ archives, and PDF files.
+Supports images, videos, PDFs, and ZIP/CBZ archives.
 
 ## API
 Create a thumbnail:

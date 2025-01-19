@@ -5,13 +5,20 @@ use image::DynamicImage;
 
 use crate::thumbs::*;
 
+/// A struct for generating thumbnails.
+///
+/// Output thumbnails will be resized according to fit inside `width` and `height`, while
+/// preserving original aspect ratios.
 pub struct Thumbnailer<'a> {
+    /// The maximum output width.
     pub width: u32,
+    /// The maximum output height.
     pub height: u32,
     mappings: HashMap<&'a str, fn(&Thumbnailer, &Path) -> anyhow::Result<DynamicImage>>,
 }
 
 impl Thumbnailer<'_> {
+    /// Creates a new Thumbnailer with the given output width and height.
     pub fn new(width: u32, height: u32) -> Self {
         let mut mappings: HashMap<&str, fn(&Thumbnailer, &Path) -> anyhow::Result<DynamicImage>> =
             HashMap::new();
@@ -36,7 +43,8 @@ impl Thumbnailer<'_> {
             mappings,
         }
     }
-
+    
+    /// Attempt to get an image thumbnail from the given file path.
     pub fn get<T: AsRef<Path>>(&self, path: T) -> anyhow::Result<DynamicImage> {
         let path = path.as_ref();
         let file = File::open(path)?;

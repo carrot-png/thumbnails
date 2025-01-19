@@ -3,12 +3,11 @@ name = "thumbnails"
 version = "0.1.0"
 edition = "2021"
 
-license-file = "LICENSE"
+license-file = "AGPL-3.0-or-later"
 description = "Thumbnailing library. Converts various file formats into a smaller image."
 repository = "https://github.com/carrot-png/thumbnails"
 readme = "README.md"
 keywords = ["thumbnail", "image", "ffmpeg", "pdfium"]
-
 
 [dependencies]
 anyhow = "1.0.95"
