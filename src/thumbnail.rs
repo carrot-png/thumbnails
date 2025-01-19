@@ -5,6 +5,8 @@ use image::DynamicImage;
 
 use crate::thumbs::*;
 
+type ThumbnailFn = fn(&Thumbnailer, &Path) -> anyhow::Result<DynamicImage>;
+
 /// A struct for generating thumbnails.
 ///
 /// Output thumbnails will be resized according to fit inside `width` and `height`, while
@@ -14,13 +16,13 @@ pub struct Thumbnailer<'a> {
     pub width: u32,
     /// The maximum output height.
     pub height: u32,
-    mappings: HashMap<&'a str, fn(&Thumbnailer, &Path) -> anyhow::Result<DynamicImage>>,
+    mappings: HashMap<&'a str, ThumbnailFn>,
 }
 
 impl Thumbnailer<'_> {
     /// Creates a new Thumbnailer with the given output width and height.
     pub fn new(width: u32, height: u32) -> Self {
-        let mut mappings: HashMap<&str, fn(&Thumbnailer, &Path) -> anyhow::Result<DynamicImage>> =
+        let mut mappings: HashMap<&str, ThumbnailFn> =
             HashMap::new();
 
         #[cfg(feature = "img")]
@@ -54,7 +56,7 @@ impl Thumbnailer<'_> {
             .mappings
             .get(mime)
             .context(format!("Unsupported MIME type: {mime}"))?;
-        func(&self, path)
+        func(self, path)
     }
 }
 
@@ -62,7 +64,7 @@ pub trait Thumbnailable {
     const MIME_TYPES: &'static [&'static str];
     fn run(thumbnailer: &Thumbnailer, path: &Path) -> anyhow::Result<DynamicImage>;
 
-    fn load(mappings: &mut HashMap<&str, fn(&Thumbnailer, &Path) -> anyhow::Result<DynamicImage>>) {
+    fn load(mappings: &mut HashMap<&str, ThumbnailFn>) {
         for mime in Self::MIME_TYPES {
             mappings.insert(mime, Self::run);
         }

@@ -30,6 +30,6 @@ impl Thumbnailable for Video {
                 .context("Failed to construct image buffer.")?;
 
         let thumb = DynamicImage::ImageRgb8(img).thumbnail(thumbnailer.width, thumbnailer.height);
-        return Ok(thumb);
+        Ok(thumb)
     }
 }
