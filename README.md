@@ -1,4 +1,6 @@
 # Thumbnails
+[![crates.io](https://img.shields.io/crates/v/thumbnails.svg)](https://crates.io/crates/thumbnails)
+[![Documentation](https://docs.rs/thumbnails/badge.svg)](https://docs.rs/thumbnails)
 
 ## A thumbnailing library.
 
