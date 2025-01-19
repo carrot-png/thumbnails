@@ -1,5 +1,5 @@
 use std::env::args;
-use thumbnailer::Thumbnailer;
+use thumbnails::Thumbnailer;
 
 fn main() {
     let thumbnailer = Thumbnailer::new(250, 250);
