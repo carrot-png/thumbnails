@@ -3,7 +3,7 @@ name = "thumbnails"
 version = "0.2.0"
 edition = "2021"
 
-license-file = "AGPL-3.0-or-later"
+license = "AGPL-3.0-or-later"
 description = "Thumbnailing library. Converts various file formats into a smaller image."
 repository = "https://github.com/carrot-png/thumbnails"
 readme = "README.md"
