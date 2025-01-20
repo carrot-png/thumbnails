@@ -11,6 +11,7 @@ type ThumbnailFn = fn(&Thumbnailer, &Path) -> anyhow::Result<DynamicImage>;
 ///
 /// Output thumbnails will be resized according to fit inside `width` and `height`, while
 /// preserving original aspect ratios.
+#[derive(Debug, Clone)]
 pub struct Thumbnailer<'a> {
     /// The maximum output width.
     pub width: u32,
@@ -67,5 +68,24 @@ pub trait Thumbnailable {
         for mime in Self::MIME_TYPES {
             mappings.insert(mime, Self::run);
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::Thumbnailer;
+
+    #[test]
+    fn test_thumbnailer_new() {
+        let thumbnailer = Thumbnailer::new(500, 300);
+        assert_eq!(thumbnailer.width, 500);
+        assert_eq!(thumbnailer.height, 300);
+    }
+
+    #[test]
+    fn test_thumbnailer_get_missing() {
+        let thumbnailer = Thumbnailer::new(250, 250);
+        let missing = thumbnailer.get("");
+        assert!(missing.is_err());
     }
 }
