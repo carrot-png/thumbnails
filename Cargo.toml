@@ -11,7 +11,7 @@ keywords = ["thumbnail", "image", "ffmpeg", "pdfium"]
 
 [dependencies]
 anyhow = "1.0.97"
-image = "0.25.5"
+image = "0.25.6"
 ndarray = "0.16.1"
 pdfium-render = "0.8.29"
 tempfile = "3.19.1"
