@@ -1065,6 +1065,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "ndarray"
+version = "0.17.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0c7c9125e8f6f10c9da3aad044cc918cf8784fa34de857b1aa68038eb05a50a9"
+dependencies = [
+ "matrixmultiply",
+ "num-complex",
+ "num-integer",
+ "num-traits",
+ "portable-atomic",
+ "portable-atomic-util",
+ "rawpointer",
+]
+
+[[package]]
 name = "new_debug_unreachable"
 version = "1.0.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1686,7 +1701,7 @@ version = "0.2.1"
 dependencies = [
  "anyhow",
  "image",
- "ndarray",
+ "ndarray 0.17.1",
  "pdfium-render",
  "tempfile",
  "tree_magic_mini",
@@ -1900,7 +1915,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9c9f6df3b49d862ea35d2c509801ee64983f2169ea02e3a8642e69ce2230e47c"
 dependencies = [
  "ffmpeg-next",
- "ndarray",
+ "ndarray 0.16.1",
  "tracing",
  "url",
 ]
