@@ -14,7 +14,7 @@ anyhow = "1.0"
 image = "0.25"
 ndarray = "0.17"
 pdfium-render = "0.8"
-tempfile = "3.23"
+tempfile = "3.25"
 tree_magic_mini = "3.2"
 video-rs = { version = "0.10", features = ["ndarray"] }
 zip = "6.0"
