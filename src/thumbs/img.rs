@@ -1,4 +1,4 @@
-use image::{DynamicImage, ImageReader};
+use image::{DynamicImage, ImageDecoder, ImageReader};
 
 use crate::thumbnail::*;
 use std::path::Path;
@@ -15,9 +15,18 @@ impl Thumbnailable for Img {
     ];
 
     fn run(thumbnailer: &Thumbnailer, path: &Path) -> anyhow::Result<DynamicImage> {
-        Ok(ImageReader::open(path)?
+        let mut decoder = ImageReader::open(path)?
             .with_guessed_format()?
-            .decode()?
-            .thumbnail(thumbnailer.width, thumbnailer.height))
+            .into_decoder()?;
+
+        // Read the orientation before consuming the decoder.
+        let orientation = decoder.orientation()?;
+
+        let mut image = DynamicImage::from_decoder(decoder)?;
+
+        // Apply EXIF orientation before resizing.
+        image.apply_orientation(orientation);
+
+        Ok(image.thumbnail(thumbnailer.width, thumbnailer.height))
     }
 }

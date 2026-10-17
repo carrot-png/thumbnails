@@ -18,6 +18,7 @@ pub struct Thumbnailer<'a> {
     /// The maximum output height.
     pub height: u32,
     mappings: HashMap<&'a str, ThumbnailFn>,
+    pub(crate) settings: ThumbnailSettings,
 }
 
 impl Thumbnailer<'_> {
@@ -43,6 +44,7 @@ impl Thumbnailer<'_> {
             width,
             height,
             mappings,
+            settings: ThumbnailSettings::default(),
         }
     }
 
@@ -57,6 +59,33 @@ impl Thumbnailer<'_> {
             .get(mime)
             .context(format!("Unsupported MIME type: {mime}"))?;
         func(self, path)
+    }
+
+    #[cfg(feature = "pdfium")]
+    /// Allows pdfium to render landscape thumbnails on landscape pdfs.
+    pub fn allow_any_rotation(&mut self) {
+        self.settings.pdf_settings.rotation_mode = PDFRotationMode::AllowAny;
+    }
+}
+
+#[derive(Debug, Clone, Default)]
+pub(crate) struct ThumbnailSettings {
+    pub(crate) pdf_settings: PDFSettings,
+}
+
+#[derive(Debug, Clone, Default)]
+pub(crate) struct PDFSettings {
+    pub(crate) rotation_mode: PDFRotationMode,
+}
+#[derive(Debug, Clone, Copy)]
+pub(crate) enum PDFRotationMode {
+    ForcePortrait,
+    AllowAny,
+}
+
+impl Default for PDFRotationMode {
+    fn default() -> Self {
+        Self::ForcePortrait
     }
 }
 
